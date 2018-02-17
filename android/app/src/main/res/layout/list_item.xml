@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:id="@+id/tv"
+    tools:text="@tools:sample/full_names"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"/>
