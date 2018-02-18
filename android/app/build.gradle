@@ -1,13 +1,5 @@
-//buildscript {
-//    dependencies {
-//        classpath 'com.android.tools.build:gradle:3.0.1'
-//    }
-//}
-
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -32,29 +24,20 @@ android {
 }
 
 dependencies {
-    compile 'com.github.kittinunf.fuel:fuel:1.12.1'
-    compile 'com.github.kittinunf.fuel:fuel-android:1.12.1'
-    compile 'com.github.kittinunf.fuel:fuel-gson:1.12.1'
-
-
+    implementation 'com.github.kittinunf.fuel:fuel:1.12.1'
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1'
+    api 'com.github.kittinunf.fuel:fuel-gson:1.12.1'
     api project(':common-jvm')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-    compile 'io.arrow-kt:arrow-core:0.6.1'
-    compile 'io.arrow-kt:arrow-typeclasses:0.6.1'
-    compile 'io.arrow-kt:arrow-instances:0.6.1'
-    compile 'io.arrow-kt:arrow-data:0.6.1'
-    compile 'io.arrow-kt:arrow-syntax:0.6.1'
-
-    compile 'io.arrow-kt:arrow-effects:0.6.1'
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.2"
-
+    implementation 'io.arrow-kt:arrow-core:0.6.1'
+    implementation 'io.arrow-kt:arrow-typeclasses:0.6.1'
+    implementation 'io.arrow-kt:arrow-instances:0.6.1'
+    implementation 'io.arrow-kt:arrow-effects:0.6.1'
+    implementation 'io.arrow-kt:arrow-effects-kotlinx-coroutines:0.6.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.22.2"
 }
 kotlin {
     experimental {

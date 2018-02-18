@@ -2,14 +2,7 @@ package com.mpp.multiplatformmenu
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
-import arrow.effects.IO
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.gson.responseObject
-import com.mpp.multiplatformmenu.data.Category
-import com.mpp.multiplatformmenu.data.Item
-import com.mpp.multiplatformmenu.data.SubCategory
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -21,32 +14,51 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val adapter = ItemsAdapter()
-        findViewById<RecyclerView>(R.id.rv).adapter = adapter
+        rv.adapter = adapter
 
-        FuelManager.instance.basePath = "http://192.168.0.101:8080"
+        host = "http://192.168.0.101:8080"
 
-        launch(CommonPool) {
-            getCategories().flatMap {
-                getSubCategories(it.first().id).flatMap {
-                    getItems(it.first().id)
-                }
-            }.unsafeRunSync().let { items ->
-                launch(UI) {
-                    adapter.apply {
-                        dataSource = items
+        try {
+            launch(CommonPool) {
+                getCategories().flatMap {
+                    getSubCategories(it.first().id).flatMap {
+                        getItems(it.first().id)
                     }
-                }
+                }.unsafeRunSync().let { items -> launch(UI) { adapter.dataSource = items } }
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+
+//        launch(CommonPool) {
+//            getCategories().flatMap {
+//                getSubCategories(it.first().id).flatMap {
+//                    getItems(it.first().id)
+//                }
+//            }.unsafeRunAsync {
+//                        it.fold({
+//                            it.printStackTrace()
+//                        }, {
+//                            launch(UI) { adapter.dataSource = it }
+//                        })
+//                    }
+//        }
+//
+//
+//        try {
+//            IO.monad().binding {
+//                val categories = getCategories().bind()
+//                val subcategories = getSubCategories(categories.first().id).bind()
+//                val items = getItems(subcategories.first().id).bind()
+//                items
+//            }.ev().unsafeRunSync().let { items ->
+//                launch(UI) {
+//                    adapter.dataSource = items
+//                }
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+
     }
-
-    private fun getCategories(): IO<List<Category>> =
-            IO.pure(Fuel.get("/categories").responseObject<List<Category>>().third.get())
-
-    private fun getSubCategories(categoryId: Int): IO<List<SubCategory>> =
-            IO.pure(Fuel.get("/subcategory/$categoryId").responseObject<List<SubCategory>>().third.get())
-
-    private fun getItems(subCategoryId: Int): IO<List<Item>> =
-            IO.pure(Fuel.get("/items/$subCategoryId").responseObject<List<Item>>().third.get())
-
 }
