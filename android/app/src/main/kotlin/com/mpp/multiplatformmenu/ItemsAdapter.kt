@@ -11,7 +11,7 @@ import com.mpp.multiplatformmenu.data.Item
  * Created by ihor_kucherenko on 2/17/18.
  * https://github.com/KucherenkoIhor
  */
-class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
+class ItemsAdapter(private val onItemClickListener: View.OnClickListener) : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
     var dataSource: List<Item>? = null
         set(value) {
@@ -26,6 +26,7 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemViewHolder>() {
 
     override fun onBindViewHolder(holder: ItemViewHolder?, position: Int) {
         holder?.item = dataSource?.get(position)
+        holder?.itemView?.setOnClickListener(onItemClickListener)
     }
 
     class ItemViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {

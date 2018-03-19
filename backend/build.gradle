@@ -1,7 +1,6 @@
 group 'Example'
 version '1.0-SNAPSHOT'
 
-
 buildscript {
     ext.ktor_version = '0.9.1'
 }

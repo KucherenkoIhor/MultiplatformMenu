@@ -20,7 +20,9 @@ var host: String? = null
     }
 
 fun getCategories(): IO<List<Category>> =
-        IO.pure(Fuel.get("/categories").responseObject<List<Category>>().third.get())
+        IO.pure(Fuel.get("/categories")
+                .responseObject<List<Category>>()
+                .third.get())
 
 fun getSubCategories(categoryId: Int): IO<List<SubCategory>> =
         IO.pure(Fuel.get("/subcategory/$categoryId").responseObject<List<SubCategory>>().third.get())

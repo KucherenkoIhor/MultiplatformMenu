@@ -2,18 +2,20 @@ package com.mpp.multiplatformmenu
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener by OnItemClickListener {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = ItemsAdapter()
+        val adapter = ItemsAdapter(this)
         rv.adapter = adapter
 
         host = "http://192.168.0.101:8080"
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
 
 //        launch(CommonPool) {
 //            getCategories().flatMap {
@@ -51,11 +54,7 @@ class MainActivity : AppCompatActivity() {
 //                val subcategories = getSubCategories(categories.first().id).bind()
 //                val items = getItems(subcategories.first().id).bind()
 //                items
-//            }.ev().unsafeRunSync().let { items ->
-//                launch(UI) {
-//                    adapter.dataSource = items
-//                }
-//            }
+//            }.ev().unsafeRunSync().let { items -> launch(UI) { adapter.dataSource = items } }
 //        } catch (e: Exception) {
 //            e.printStackTrace()
 //        }

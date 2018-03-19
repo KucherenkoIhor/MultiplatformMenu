@@ -1,3 +1,4 @@
+rootProject.name='MultiplatformMenu'
 include 'android', 'android:app'
 include 'common'
 include 'common-jvm'
